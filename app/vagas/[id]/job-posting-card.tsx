@@ -4,10 +4,32 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Briefcase, DollarSign, MapPin, Users } from "lucide-react";
 import Link from "next/link";
-import { JobRole } from "@/lib/types";
 import { deleteJob } from "@/lib/actions";
 
-export default async function JobPostingCard({ job }: { job: JobRole }) {
+async function fetchJob(id: string) {
+  try {
+    const response = await fetch(
+      `https://apis.codante.io/api/job-board/jobs/${id}`,
+      {
+        cache: "no-store",
+      }
+    );
+
+    const job = await response.json();
+
+    return job.data;
+  } catch (error) {
+    console.error("Error fetching job:", error);
+  }
+}
+
+export default async function JobPostingCard({ jobId }: { jobId: string }) {
+  const job = await fetchJob(jobId);
+
+  if (!job) {
+    return <span>Vaga nao encontrada</span>;
+  }
+
   return (
     <Card>
       <CardHeader className="space-y-4">

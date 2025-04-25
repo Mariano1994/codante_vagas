@@ -1,15 +1,19 @@
 import JobItem from "@/components/job-item";
 import { Job } from "@/lib/types";
 import Link from "next/link";
+import { Suspense } from "react";
 
 // export const dynamic = "force-dynamic"; this will force the page to be dynamic and not cached (server-rendered on demand)
 // DO the samething with the cache: "no-store" on the fetch method
 
 async function fetchJobs() {
   try {
-    const jobData = await fetch("https://apis.codante.io/api/job-board/jobs", {
-      cache: "no-store",
-    });
+    const jobData = await fetch(
+      "https://apis.codante.io/api/job-board/jobs?slow=true",
+      {
+        cache: "no-store",
+      }
+    );
     const jobList = await jobData.json();
     const jobs: Job[] = jobList.data;
     return jobs;
@@ -43,6 +47,7 @@ export default async function Vagas() {
   return (
     <main className="py-10">
       <h2 className="font-display mb-12 text-2xl font-bold">Todas as Vagas</h2>
+
       <div className="space-y-8">
         {jobs.map((job) => (
           <JobItem key={job.id} job={job} />

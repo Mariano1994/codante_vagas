@@ -1,23 +1,8 @@
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import JobPostingCard from "./job-posting-card";
-
-async function fetchJob(id: string) {
-  try {
-    const response = await fetch(
-      `https://apis.codante.io/api/job-board/jobs/${id}`,
-      {
-        cache: "no-store",
-      }
-    );
-
-    const job = await response.json();
-
-    return job.data;
-  } catch (error) {
-    console.error("Error fetching job:", error);
-  }
-}
+import { Suspense } from "react";
+import CommentSection from "./comment-section";
 
 export default async function Vaga({
   params,
@@ -26,7 +11,6 @@ export default async function Vaga({
 }) {
   const { id } = await params;
 
-  const job = await fetchJob(id);
   return (
     <div className="container mx-auto max-w-4xl p-4">
       <div className="mb-6">
@@ -38,7 +22,14 @@ export default async function Vaga({
           Todas as Vagas
         </Link>
       </div>
-      <JobPostingCard job={job} />
+
+      <Suspense fallback={<span> Carregando dados da Vaga</span>}>
+        <JobPostingCard jobId={id} />
+      </Suspense>
+
+      <Suspense fallback={<span> carregando comentarios... </span>}>
+        <CommentSection jobId={id} />
+      </Suspense>
     </div>
   );
 }
