@@ -7,9 +7,12 @@ import Link from "next/link";
 
 async function fetchJobs() {
   try {
-    const jobData = await fetch("https://apis.codante.io/api/job-board/jobs", {
-      cache: "no-store",
-    });
+    const jobData = await fetch(
+      "https://apis.codante.io/api/job-board/jobs?slow=true",
+      {
+        cache: "no-store",
+      }
+    );
     const jobList = await jobData.json();
     const jobs: Job[] = jobList.data;
     return jobs;

@@ -1,8 +1,9 @@
+import JobDetailsSkeleton from "@/components/job-details-skeleton";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import JobPostingCard from "./job-posting-card";
 import { Suspense } from "react";
 import CommentSection from "./comment-section";
+import JobPostingCard from "./job-posting-card";
 
 export default async function Vaga({
   params,
@@ -23,7 +24,7 @@ export default async function Vaga({
         </Link>
       </div>
 
-      <Suspense fallback={<span> Carregando dados da Vaga</span>}>
+      <Suspense fallback={<JobDetailsSkeleton />}>
         <JobPostingCard jobId={id} />
       </Suspense>
 

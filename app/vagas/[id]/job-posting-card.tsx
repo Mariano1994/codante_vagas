@@ -2,9 +2,9 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { deleteJob } from "@/lib/actions";
 import { Briefcase, DollarSign, MapPin, Users } from "lucide-react";
 import Link from "next/link";
-import { deleteJob } from "@/lib/actions";
 
 async function fetchJob(id: string) {
   try {
