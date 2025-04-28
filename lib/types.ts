@@ -13,10 +13,16 @@ export interface JobRole {
   company_website: string;
   number_of_positions: number;
   schedule: string;
-  salary: number; 
+  salary: number;
   description: string;
   requirements: string;
   city: string;
   created_at: string;
   updated_at: string;
+}
+
+export interface Comment {
+  id: string;
+  author: string;
+  content: string;
 }

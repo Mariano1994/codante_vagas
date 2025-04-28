@@ -1,7 +1,9 @@
+import { Comment } from "@/lib/types";
+
 async function fetchComments(id: string) {
   try {
     const commnets = await fetch(
-      `https://apis.codante.io/api/job-board/jobs/${id}/comments?slow=true`,
+      `https://apis.codante.io/api/job-board/jobs/${id}/comments`,
       { cache: "no-store" }
     );
 
@@ -16,17 +18,18 @@ export default async function CommentSection({ jobId }: { jobId: string }) {
   const comments = await fetchComments(jobId);
 
   return (
-    <div>
-      <h2 className="font-display mt-12 mb-8 text-2xl font-bold">
-        Comentarios sobre esta vaga
-      </h2>
-      <div className="space-y-3">
-        {comments.map((comment: any) => (
+    <div className="mt-8">
+      <h2 className="mb-6 text-2xl font-bold">Comentários</h2>
+      <div className="space-y-4">
+        {comments.map((comment: Comment) => (
           <div
             key={comment.id}
-            className="border border-gray-100 rounded-md p-4"
+            className="max-w-lg rounded-lg border-l-4 border-l-blue-400 bg-gray-50 p-4 shadow-md transition-shadow duration-200 hover:shadow-lg"
           >
-            <p className="text-muted-foreground">{comment.content}</p>
+            <div className="mb-2 flex items-center gap-3">
+              <p className="font-semibold text-gray-800">{comment.author}</p>
+            </div>
+            <p className="leading-relaxed text-gray-600">{comment.content}</p>
           </div>
         ))}
       </div>
