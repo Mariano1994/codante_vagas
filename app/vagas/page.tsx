@@ -1,5 +1,7 @@
 import JobItem from "@/components/job-item";
+import { Input } from "@/components/ui/input";
 import { Job } from "@/lib/types";
+import { SearchIcon } from "lucide-react";
 import Link from "next/link";
 
 // export const dynamic = "force-dynamic"; this will force the page to be dynamic and not cached (server-rendered on demand)
@@ -46,6 +48,12 @@ export default async function Vagas() {
   return (
     <main className="py-10">
       <h2 className="font-display mb-12 text-2xl font-bold">Todas as Vagas</h2>
+
+      <Input
+        icon={<SearchIcon size={22} className="text-zinc-400" />}
+        className="mb-8 text-base text-zinc-700 font-medium placeholder:text-zinc-400 "
+        placeholder="Busque por vagas"
+      />
 
       <div className="space-y-8">
         {jobs.map((job) => (
