@@ -1,65 +1,16 @@
-import JobItem from "@/components/job-item";
-import { Input } from "@/components/ui/input";
-import { Job } from "@/lib/types";
-import { SearchIcon } from "lucide-react";
-import Link from "next/link";
+import { SearchBar } from "./_components/search-bar";
+import JobsList from "@/components/jobs-list";
 
-// export const dynamic = "force-dynamic"; this will force the page to be dynamic and not cached (server-rendered on demand)
-// DO the samething with the cache: "no-store" on the fetch method
-
-async function fetchJobs() {
-  try {
-    const jobData = await fetch(
-      "https://apis.codante.io/api/job-board/jobs?slow=true",
-      {
-        cache: "no-store",
-      }
-    );
-    const jobList = await jobData.json();
-    const jobs: Job[] = jobList.data;
-    return jobs;
-  } catch (error) {
-    console.error("Error fetching jobs:", error);
-  }
-}
-
-export default async function Vagas() {
-  const jobs = await fetchJobs();
-
-  if (!jobs) {
-    return (
-      <main className="flex justify-center items-center mt-8 ">
-        <article className="flex flex-col justify-center items-center">
-          <h2 className="font-display mb-12 text-2xl font-bold">
-            Nenhuma Vaga Encontrada
-          </h2>
-          <Link
-            href="/vagas/cadastro"
-            className="bg-black text-white py-2 px-4 rounded-sm hover:brightness-105"
-          >
-            {" "}
-            Cadastrar vagas
-          </Link>
-        </article>
-      </main>
-    );
-  }
-
+export default async function Vagas({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
   return (
     <main className="py-10">
       <h2 className="font-display mb-12 text-2xl font-bold">Todas as Vagas</h2>
-
-      <Input
-        icon={<SearchIcon size={22} className="text-zinc-400" />}
-        className="mb-8 text-base text-zinc-700 font-medium placeholder:text-zinc-400 "
-        placeholder="Busque por vagas"
-      />
-
-      <div className="space-y-8">
-        {jobs.map((job) => (
-          <JobItem key={job.id} job={job} />
-        ))}
-      </div>
+      <SearchBar />
+      <JobsList searchParams={searchParams} />
     </main>
   );
 }
