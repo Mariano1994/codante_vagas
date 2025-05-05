@@ -22,7 +22,7 @@ export function SearchBar() {
     router.replace(`?${urlSearchParams.toString()}`);
   };
 
-  //
+  //Using debounce to avoid too many requests
   const handleOnSubmitDebounced = useDebouncedCallback(
     (e) => handleOnChange(e),
     500

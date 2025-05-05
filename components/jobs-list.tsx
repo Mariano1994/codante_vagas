@@ -1,5 +1,6 @@
 import { Job } from "@/lib/types";
 import JobItem from "./job-item";
+import JobsPagination from "./jobs-paginations";
 
 // export const dynamic = "force-dynamic"; this will force the page to be dynamic and not cached (server-rendered on demand)
 // DO the samething with the cache: "no-store" on the fetch method...
@@ -39,6 +40,8 @@ export default async function JobsList({
       {jobs?.map((job) => (
         <JobItem key={job.id} job={job} />
       ))}
+
+      <JobsPagination searchParams={searchParams} />
     </div>
   );
 }
