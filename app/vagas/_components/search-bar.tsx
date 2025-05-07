@@ -1,11 +1,12 @@
 "use client";
 import { Input } from "@/components/ui/input";
-import { SearchIcon } from "lucide-react";
+import { Loader2, SearchIcon } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useTransition } from "react";
 import { useDebouncedCallback } from "use-debounce";
 
 export function SearchBar() {
+  const [isPending, startTransition] = useTransition();
   const seachParams = useSearchParams();
   const previousSearchText = seachParams.get("search") || "";
   const router = useRouter();
@@ -19,7 +20,10 @@ export function SearchBar() {
     } else {
       urlSearchParams.delete("search");
     }
-    router.replace(`?${urlSearchParams.toString()}`);
+
+    startTransition(() => {
+      router.replace(`?${urlSearchParams.toString()}`);
+    });
   };
 
   //Using debounce to avoid too many requests
@@ -30,7 +34,13 @@ export function SearchBar() {
 
   return (
     <Input
-      icon={<SearchIcon size={22} className="text-zinc-400" />}
+      icon={
+        isPending ? (
+          <Loader2 size={22} className="text-zinc-400 animate-spin" />
+        ) : (
+          <SearchIcon size={22} className="text-zinc-400" />
+        )
+      }
       className="mb-8 text-base text-zinc-700 font-medium placeholder:text-zinc-400 "
       placeholder="Busque por vagas"
       defaultValue={previousSearchText}
