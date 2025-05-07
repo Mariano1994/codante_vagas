@@ -26,3 +26,9 @@ export interface Comment {
   author: string;
   content: string;
 }
+
+export interface Meta {
+  current_page: number;
+  from: number;
+  last_page: number;
+}
